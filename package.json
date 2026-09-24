@@ -45,10 +45,6 @@
     ],
     "extraMetadata": { "main": "electron/main.cjs" },
     "win": { "target": "nsis", "signAndEditExecutable": false },
-    "nsis": {
-      "oneClick": false,
-      "allowToChangeInstallationDirectory": true,
-      "deleteAppDataOnUninstall": true
-    }
+    "nsis": { "oneClick": false, "allowToChangeInstallationDirectory": true }
   }
 }

@@ -40,9 +40,7 @@ async function waitForServer(url) {
     try {
       const response = await fetch(url);
       if (response.ok) return;
-    } catch {
-      // The server is still starting.
-    }
+    } catch {}
     await new Promise((resolve) => setTimeout(resolve, 250));
   }
   throw new Error("Le serveur Ariane n’a pas démarré.");

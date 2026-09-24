@@ -25,7 +25,7 @@ Prérequis : Node.js LTS 20 ou plus récent.
 Dans l’invite de commandes Windows (**CMD**) :
 
 ```bat
-cd C:\ariane-game-assistant-github
+cd C:\vs-code
 npm.cmd install
 copy .env.example .env.local
 notepad .env.local
@@ -50,7 +50,7 @@ Ouvrez <http://localhost:3000>. Sans clé API, Ariane utilise une réponse de d�
 Pour lancer l’application Windows en mode développement :
 
 ```bat
-cd C:\ariane-game-assistant-github
+cd C:\vs-code
 npm.cmd install
 npm.cmd run electron:dev
 ```
