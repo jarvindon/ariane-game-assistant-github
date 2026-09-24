@@ -25,20 +25,35 @@ function writeKey(value) {
 }
 
 function startNext() {
-  const nextBin = path.join(__dirname, "..", "node_modules", "next", "dist", "bin", "next");
-  nextProcess = spawn(process.platform === "win32" ? process.execPath : "node", [nextBin, "start", "-p", "3210"], {
-    cwd: path.join(__dirname, ".."),
-    env: { ...process.env, ELECTRON_RUN_AS_NODE: "1" },
+  const serverPath = path.join(process.resourcesPath, "standalone", "server.js");
+  nextProcess = spawn(process.execPath, [serverPath], {
+    cwd: path.dirname(serverPath),
+    env: { ...process.env, ELECTRON_RUN_AS_NODE: "1", PORT: "3210", HOSTNAME: "127.0.0.1" },
     windowsHide: true
   });
   nextProcess.on("error", (error) => console.error("Next server error:", error));
+  nextProcess.stderr?.on("data", (data) => console.error(`Next: ${data}`));
+}
+
+async function waitForServer(url) {
+  for (let attempt = 0; attempt < 40; attempt += 1) {
+    try {
+      const response = await fetch(url);
+      if (response.ok) return;
+    } catch {
+      // The server is still starting.
+    }
+    await new Promise((resolve) => setTimeout(resolve, 250));
+  }
+  throw new Error("Le serveur Ariane n’a pas démarré.");
 }
 
 async function createWindow() {
-  const url = process.env.ELECTRON_DEV === "1" ? "http://localhost:3000" : "http://localhost:3210";
-  if (process.env.ELECTRON_DEV !== "1") {
+  const isDevelopment = process.env.ELECTRON_DEV === "1";
+  const url = isDevelopment ? "http://localhost:3000" : "http://127.0.0.1:3210";
+  if (!isDevelopment) {
     startNext();
-    await new Promise((resolve) => setTimeout(resolve, 1200));
+    await waitForServer(url);
   }
   mainWindow = new BrowserWindow({
     width: 1440,
@@ -53,7 +68,7 @@ async function createWindow() {
 
 ipcMain.handle("openai-key:get", () => readKey());
 ipcMain.handle("openai-key:set", (_event, value) => {
-  if (typeof value !== "string" || !value.startsWith("sk-")) throw new Error("Clé OpenAI invalide.");
+  if (typeof value !== "string" || !value.trim().startsWith("sk-")) throw new Error("Clé OpenAI invalide.");
   writeKey(value.trim());
 });
 ipcMain.handle("openai-key:delete", () => {
@@ -61,5 +76,8 @@ ipcMain.handle("openai-key:delete", () => {
   if (fs.existsSync(keyFile())) fs.rmSync(keyFile());
 });
 
-app.whenReady().then(createWindow);
+app.whenReady().then(createWindow).catch((error) => {
+  console.error("Ariane failed to start:", error);
+  app.quit();
+});
 app.on("window-all-closed", () => { if (nextProcess) nextProcess.kill(); if (process.platform !== "darwin") app.quit(); });
