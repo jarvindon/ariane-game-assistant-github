@@ -35,8 +35,11 @@ function startNext() {
 }
 
 async function createWindow() {
-  startNext();
-  await new Promise((resolve) => setTimeout(resolve, 1200));
+  const url = process.env.ELECTRON_DEV === "1" ? "http://localhost:3000" : "http://localhost:3210";
+  if (process.env.ELECTRON_DEV !== "1") {
+    startNext();
+    await new Promise((resolve) => setTimeout(resolve, 1200));
+  }
   mainWindow = new BrowserWindow({
     width: 1440,
     height: 920,
@@ -45,7 +48,7 @@ async function createWindow() {
     backgroundColor: "#070b14",
     webPreferences: { preload: path.join(__dirname, "preload.cjs"), contextIsolation: true, nodeIntegration: false }
   });
-  await mainWindow.loadURL("http://localhost:3210");
+  await mainWindow.loadURL(url);
 }
 
 ipcMain.handle("openai-key:get", () => readKey());

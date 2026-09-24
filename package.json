@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "electron:dev": "concurrently \"next dev\" \"wait-on http://localhost:3000 && electron electron/main.cjs\"",
+    "electron:dev": "concurrently \"next dev -p 3000\" \"wait-on http://localhost:3000 && set ELECTRON_DEV=1&& electron electron/main.cjs\"",
     "dist": "npm run build && electron-builder --win nsis",
     "start": "next start",
     "lint": "next lint"
