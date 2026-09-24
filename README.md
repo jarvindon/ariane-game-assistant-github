@@ -9,7 +9,7 @@ Ariane est un copilote tactique pour joueurs. Elle capture une fenêtre de jeu, 
 1. Installez **Ariane Game Assistant**.
 2. Ouvrez **Configuration**.
 3. Créez une clé sur <https://platform.openai.com/api-keys>.
-4. Collez votre clé `sk-...`, puis cliquez sur **Enregistrer**.
+4. Collez votre clé OpenAI, puis cliquez sur **Enregistrer**.
 5. Cliquez sur **Démarrer la capture**.
 6. Sélectionnez la fenêtre ou l’écran du jeu.
 7. Cliquez sur **Analyser la frame** ou utilisez le microphone.
@@ -34,7 +34,7 @@ notepad .env.local
 Ajoutez votre clé dans `.env.local` :
 
 ```env
-OPENAI_API_KEY=sk-votre-cle
+OPENAI_API_KEY=<votre-cle-openai>
 ```
 
 Puis démarrez Ariane :
