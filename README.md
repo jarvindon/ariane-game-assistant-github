@@ -10,12 +10,14 @@ Ariane est un copilote tactique pour joueurs : elle capture une fenêtre de jeu,
 
 ## Tester dans le navigateur
 
-```powershell
+Dans l'invite de commandes Windows (**CMD**, pas PowerShell), utilisez :
+
+```bat
 cd C:\vs-code
-npm install
+npm.cmd install
 copy .env.example .env.local
 notepad .env.local
-npm run dev
+npm.cmd run dev
 ```
 
 Dans `.env.local`, ajoutez votre clé :
@@ -28,16 +30,20 @@ Ouvrez ensuite <http://localhost:3000>. Sans clé, Ariane utilise une réponse d
 
 ## Tester l’application Windows en développement
 
-```powershell
-npm run electron:dev
+Dans CMD :
+
+```bat
+cd C:\ariane-game-assistant-github
+npm.cmd install
+npm.cmd run electron:dev
 ```
 
 Une fenêtre Ariane s’ouvre automatiquement. Autorisez le partage de la fenêtre ou de l’écran du jeu, puis cliquez sur **Analyser la frame**.
 
 ## Construire l’EXE
 
-```powershell
-npm run dist
+```bat
+npm.cmd run dist
 ```
 
 L’installateur est créé dans `dist\Ariane Game Assistant Setup 0.1.0.exe`. Le premier lancement peut prendre un peu de temps, car Electron démarre le serveur local Next.js.
@@ -53,6 +59,10 @@ L’installateur est créé dans `dist\Ariane Game Assistant Setup 0.1.0.exe`. L
 7. Cliquer sur **Analyser la frame** ou utiliser le microphone.
 
 Dans l’EXE, la clé est chiffrée avec `safeStorage` et conservée localement dans le profil Windows de l’utilisateur. Elle n’est pas incluse dans l’EXE et n’est jamais commitée dans GitHub. Chaque utilisateur paie les appels effectués avec son propre compte OpenAI. Le bouton **Supprimer** efface la clé locale.
+
+## Désinstaller Ariane complètement
+
+Ouvrez **Paramètres Windows → Applications → Applications installées**, recherchez **Ariane Game Assistant**, puis cliquez sur **Désinstaller**. L’assistant de désinstallation supprime l’application, ses fichiers installés et les données locales Ariane, y compris la clé API chiffrée enregistrée sur cet ordinateur. Il ne supprime pas votre compte OpenAI ni votre dépôt GitHub.
 
 ## Sécurité et bonnes pratiques
 

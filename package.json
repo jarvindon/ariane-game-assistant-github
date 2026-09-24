@@ -35,6 +35,10 @@
     "files": ["app", "components", "public", ".next", "electron", "package.json", "next.config.mjs", "next-env.d.ts"],
     "extraMetadata": { "main": "electron/main.cjs" },
     "win": { "target": "nsis", "signAndEditExecutable": false },
-    "nsis": { "oneClick": false, "allowToChangeInstallationDirectory": true }
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "deleteAppDataOnUninstall": true
+    }
   }
 }
