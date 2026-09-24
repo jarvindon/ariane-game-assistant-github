@@ -13,7 +13,7 @@ Ariane est un copilote tactique pour joueurs : elle capture une fenêtre de jeu,
 Dans l'invite de commandes Windows (**CMD**, pas PowerShell), utilisez :
 
 ```bat
-cd C:\vs-code
+cd C:\ariane-game-assistant-github
 npm.cmd install
 copy .env.example .env.local
 notepad .env.local
